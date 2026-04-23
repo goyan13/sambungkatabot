@@ -1,25 +1,17 @@
-import telegram
-print("VERSI:", telegram.__version__)
-
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 import os
 import logging
 
-# Logging biar gampang debug di Railway
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+logging.basicConfig(level=logging.INFO)
 
-TOKEN os.getenv("8692752593:AAEjcOqRJVFOkpyr0sQmc2NM6WEaOXs79p0")
+TOKEN = os.getenv("8692752593:AAEjcOqRJVFOkpyr0sQmc2NM6WEaOXs79p0")
 
 if not TOKEN:
     raise ValueError("BOT_TOKEN belum diset di Railway Variables!")
 
 app = ApplicationBuilder().token(TOKEN).build()
 
-# /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("⚡ Quick Match", callback_data="quick")],
@@ -31,20 +23,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-# tombol handler
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
     if query.data == "quick":
         await query.edit_message_text("⏳ Mencari lawan...")
-
     elif query.data == "create":
-        await query.edit_message_text("👥 Mode room (coming soon)")
+        await query.edit_message_text("👥 Mode room")
 
-# register handler
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button_handler))
 
-# run bot
 app.run_polling()
