@@ -12,7 +12,7 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-TOKEN = os.getenv("8692752593:AAHe2u42zyGqJvQ0qgIbqpyV23hzaSRQS34")
+TOKEN = os.getenv("8692752593:AAEjcOqRJVFOkpyr0sQmc2NM6WEaOXs79p0")
 
 if not TOKEN:
     raise ValueError("BOT_TOKEN belum diset di Railway Variables!")
